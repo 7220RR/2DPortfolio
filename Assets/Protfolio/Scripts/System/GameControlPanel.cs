@@ -12,8 +12,6 @@ public class GameControlPanel : MonoBehaviour
     public TextMeshProUGUI moneyText;
     public TextMeshProUGUI gameSpeedText;
 
-    public Image statusImage;
-
     private void Start()
     {
         gameSpeedButton.onClick.AddListener(OnSpeedButtonClick);

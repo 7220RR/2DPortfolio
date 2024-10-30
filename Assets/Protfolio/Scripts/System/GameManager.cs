@@ -6,7 +6,6 @@ public class GameManager : SingletonManager<GameManager>
 {
     public List<Enemy> enemyList = new();
     public Player player;
-    private int stageCount;
     public static float money;
     public PlayerData playerData;
 
@@ -19,6 +18,17 @@ public class GameManager : SingletonManager<GameManager>
         playerData.CriticalHitDamage = player.CriticalHitDamage;
         playerData.attackSpeed = player.attackSpeed;
         playerData.multiAttack = player.multiAttack;
+    }
+
+    public IEnumerator PlayerDead()
+    {
+        yield return null;
+
+        foreach (Enemy enemy in enemyList)
+        {
+            EnemyPool.pool.Push(enemy);
+        }
+
     }
 
 }

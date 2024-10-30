@@ -15,7 +15,7 @@ public class ProjectilePool : MonoBehaviour
 
     public Projectile Pop()
     {
-        if (projectileList.Count >= 0)
+        if (projectileList.Count <= 0)
             Push(Instantiate(projectilePrefab));
         Projectile projectile = projectileList[0];
         projectile.gameObject.SetActive(true);

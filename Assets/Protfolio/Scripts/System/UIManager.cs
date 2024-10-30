@@ -31,7 +31,6 @@ public class UIManager : SingletonManager<UIManager>
 
     private void OnExitButtonClick()
     {
-        print("asdsda");
         GameManager.Instance.PlayerDataSave();
         Application.Quit();
     }

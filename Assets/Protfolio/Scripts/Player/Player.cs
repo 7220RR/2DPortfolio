@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Net;
 using Unity.Burst.CompilerServices;
 using UnityEngine;
 using Random = UnityEngine.Random;
@@ -17,6 +18,8 @@ public class Player : MonoBehaviour
     public int multiAttack;
     public float moveSpeed;
 
+    private bool isTarget;
+
     private PlayerData playerData;
     public Projectile projectile;
     private Animator animator;
@@ -25,15 +28,21 @@ public class Player : MonoBehaviour
 
     private Vector2 startPosition;
 
+    private Enemy target;
+
     private void Awake()
     {
         animator = GetComponent<Animator>();
         rb = GetComponent<Rigidbody2D>();
+
     }
     private void Start()
     {
         if (GameManager.Instance != null)
             GameManager.Instance.player = this;
+
+        playerData = GameManager.Instance.playerData;
+
         if (playerData != null)
         {
             damage = playerData.damage;
@@ -45,33 +54,61 @@ public class Player : MonoBehaviour
             multiAttack = playerData.multiAttack;
         }
         maxHp = hp;
-        startPosition = new Vector2(-2f, 1.5f);
+        startPosition = transform.position;
+        StartCoroutine(ProjectileCoroutine());
     }
 
     private void Update()
     {
-        Enemy target = null;
+        if (target != null)
+            if (target.isDead) 
+                target = null;
+
+
         float targetDic = float.MaxValue;
         if (GameManager.Instance.enemyList.Count <= 0) return;
+
         foreach (Enemy enemy in GameManager.Instance.enemyList)
         {
-            float dic = Vector2.Distance(enemy.transform.position, transform.position);
+            if (enemy.isDead) continue;
 
+            float dic = Vector2.Distance(enemy.transform.position, transform.position);
+            
             if (dic < targetDic)
             {
                 target = enemy;
                 targetDic = dic;
             }
         }
-        if (targetDic > 2f)
+
+
+        if (target == null)
         {
-            if (target.transform.position.x > 3f)
+            if (rb.position != startPosition)
                 Move(startPosition);
+            else
+                animator.SetBool("IsMoving", false);
+            isTarget = false;
+            return;
+        }
+        if (targetDic > 3f)
+        {
+            isTarget = false;
+            if (target.transform.position.x > 3f)
+            {
+                if (rb.position != startPosition)
+                    Move(startPosition);
+                else
+                    animator.SetBool("IsMoving", false);
+            }
             else
                 Move(target.transform.position);
         }
         else
-            CreatProjectile(target);
+        {
+            isTarget = true;
+            animator.SetBool("IsMoving", false);
+        }
     }
 
     private void Move(Vector2 targetPosition )
@@ -81,18 +118,26 @@ public class Player : MonoBehaviour
             backGrounds[i].Move();
         }
         animator.SetBool("IsMoving", true);
-        rb.MovePosition(rb.position + (targetPosition * Time.deltaTime * moveSpeed));
+        float dic = Vector2.Distance(targetPosition, rb.position);
+        if (dic > 0.1f)
+        {
+            Vector2 rbp = (targetPosition - rb.position).normalized * moveSpeed * Time.deltaTime;
+            rb.MovePosition(rb.position + rbp);
+        }
+        else
+            rb.MovePosition(targetPosition);
     }
+
 
     public void TakeDamage(float damage)
     {
-        animator.SetTrigger("Hit");
         hp -= damage;
         if (hp <= 0)
         {
             animator.SetTrigger("Death");
             //Á×À½
         }
+        animator.SetTrigger("Hit");
     }
 
     public float DealDamage()
@@ -108,9 +153,30 @@ public class Player : MonoBehaviour
         return damage;
     }
 
-    private void CreatProjectile(Enemy enemy)
+    private void CreatProjectile()
     {
+        if (target == null) return;
         Projectile proj = ProjectilePool.pool.Pop();
-        proj.target = enemy.transform;
+        proj.target = target.transform;
+        proj.transform.position = transform.position + (Vector3.one * 0.2f);
+    }
+
+    private IEnumerator ProjectileCoroutine( )
+    {
+        float interval = 0f;
+        while (true)
+        {
+            yield return new WaitUntil(() => isTarget);
+            CreatProjectile();
+            for(int i = 0; i < multiAttack; i++)
+            {
+                yield return new WaitForSeconds(0.1f);
+                CreatProjectile();
+                interval += 0.1f;
+            }
+            if (interval >= 1f) continue;
+            yield return new WaitForSeconds(attackSpeed-interval);
+            interval = 0f;
+        }
     }
 }
