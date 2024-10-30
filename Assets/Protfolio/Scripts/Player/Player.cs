@@ -17,7 +17,7 @@ public class Player : MonoBehaviour
     public int multiAttack;
     public float moveSpeed;
 
-    public PlayerData playerData;
+    private PlayerData playerData;
     public Projectile projectile;
     private Animator animator;
     private Rigidbody2D rb;

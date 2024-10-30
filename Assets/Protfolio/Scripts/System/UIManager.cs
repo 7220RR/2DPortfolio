@@ -5,6 +5,7 @@ using UnityEngine.UI;
 
 public class UIManager : SingletonManager<UIManager>
 {
+    public GameObject panel;
     public GameObject exitPanel;
     public Button exitYesB;
     public Button exitNoB;
@@ -13,6 +14,7 @@ public class UIManager : SingletonManager<UIManager>
 
     private void Start()
     {
+        panel.SetActive(false);
         exitPanel.SetActive(false);
         exitYesB.onClick.AddListener(OnExitButtonClick);
         exitNoB.onClick.AddListener(OffExitPanel);
@@ -24,18 +26,21 @@ public class UIManager : SingletonManager<UIManager>
         timeS = Time.timeScale;
         Time.timeScale = 0;
         exitPanel.SetActive(true);
+        panel.SetActive(true);
     }
 
     private void OnExitButtonClick()
     {
+        print("asdsda");
         GameManager.Instance.PlayerDataSave();
         Application.Quit();
     }
 
-    private void OffExitPanel()
+    public void OffExitPanel()
     {
         Time.timeScale = timeS;
         exitPanel.SetActive(false);
+        panel.SetActive(false);
     }
 
     
