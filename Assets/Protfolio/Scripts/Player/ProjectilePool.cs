@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UIElements;
 
 public class ProjectilePool : MonoBehaviour
 {
@@ -18,6 +19,7 @@ public class ProjectilePool : MonoBehaviour
         if (projectileList.Count <= 0)
             Push(Instantiate(projectilePrefab));
         Projectile projectile = projectileList[0];
+        projectileList.Remove(projectile);
         projectile.gameObject.SetActive(true);
         projectile.transform.SetParent(null);
 
@@ -31,7 +33,7 @@ public class ProjectilePool : MonoBehaviour
     }
     public void Push(Projectile projectile, float delay)
     {
-        StartCoroutine(PushCoroutine(projectile, delay));
+        projectile.StartCoroutine(PushCoroutine(projectile, delay));
     }
     private IEnumerator PushCoroutine(Projectile projectile, float delay)
     {

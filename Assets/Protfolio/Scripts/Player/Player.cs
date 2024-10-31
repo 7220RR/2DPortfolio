@@ -9,7 +9,7 @@ public class Player : MonoBehaviour
 {
     public float damage;
     public float hp;
-    private float maxHp;
+    public float maxHp;
     public float hpRecovery;
     private float critical;
     public float criticalHitChance { get {return critical; }  set { if (value >= 100) critical = 100; } }
@@ -18,23 +18,24 @@ public class Player : MonoBehaviour
     public int multiAttack;
     public float moveSpeed;
 
-    private bool isTarget;
-
     private PlayerData playerData;
     public Projectile projectile;
     private Animator animator;
-    private Rigidbody2D rb;
-    public BackGround[] backGrounds;
-
+    public ParticleSystem recoveryParticle;
     private Vector2 startPosition;
 
+    private bool isDead=false;
+    private bool isTarget;
+
+    public BackGround[] backGrounds;
+    private Rigidbody2D rb;
     private Enemy target;
 
     private void Awake()
     {
         animator = GetComponent<Animator>();
         rb = GetComponent<Rigidbody2D>();
-
+        recoveryParticle = Instantiate(recoveryParticle, transform);
     }
     private void Start()
     {
@@ -56,17 +57,24 @@ public class Player : MonoBehaviour
         maxHp = hp;
         startPosition = transform.position;
         StartCoroutine(ProjectileCoroutine());
+        StartCoroutine(RecoveryCoroutine());
     }
 
     private void Update()
     {
+        if (isDead) return;
         if (target != null)
             if (target.isDead) 
                 target = null;
 
+        if (GameManager.Instance.enemyList.Count <= 0)
+        {
+            if (rb.position != startPosition)
+                Move(startPosition);
+            return;
+        }
 
         float targetDic = float.MaxValue;
-        if (GameManager.Instance.enemyList.Count <= 0) return;
 
         foreach (Enemy enemy in GameManager.Instance.enemyList)
         {
@@ -81,7 +89,6 @@ public class Player : MonoBehaviour
             }
         }
 
-
         if (target == null)
         {
             if (rb.position != startPosition)
@@ -91,7 +98,8 @@ public class Player : MonoBehaviour
             isTarget = false;
             return;
         }
-        if (targetDic > 3f)
+
+        if (targetDic > 4f)
         {
             isTarget = false;
             if (target.transform.position.x > 3f)
@@ -128,16 +136,16 @@ public class Player : MonoBehaviour
             rb.MovePosition(targetPosition);
     }
 
-
     public void TakeDamage(float damage)
     {
         hp -= damage;
+        animator.SetTrigger("Hit");
         if (hp <= 0)
         {
+            isDead = true;
             animator.SetTrigger("Death");
-            //Á×À½
+            StartCoroutine(GameManager.Instance.PlayerDead());
         }
-        animator.SetTrigger("Hit");
     }
 
     public float DealDamage()
@@ -153,30 +161,55 @@ public class Player : MonoBehaviour
         return damage;
     }
 
-    private void CreatProjectile()
+    private void CreateProjectile()
     {
-        if (target == null) return;
+        if (target == null)
+            return;
         Projectile proj = ProjectilePool.pool.Pop();
-        proj.target = target.transform;
+        if (proj == null)
+            return;
         proj.transform.position = transform.position + (Vector3.one * 0.2f);
+        proj.transform.right = (target.transform.position-proj.transform.position).normalized;
     }
 
     private IEnumerator ProjectileCoroutine( )
     {
-        float interval = 0f;
         while (true)
         {
+            yield return new WaitWhile(() => isDead);
             yield return new WaitUntil(() => isTarget);
-            CreatProjectile();
+            CreateProjectile();
             for(int i = 0; i < multiAttack; i++)
             {
                 yield return new WaitForSeconds(0.1f);
-                CreatProjectile();
-                interval += 0.1f;
+                CreateProjectile();
             }
-            if (interval >= 1f) continue;
-            yield return new WaitForSeconds(attackSpeed-interval);
-            interval = 0f;
+
+            float delay = (1f / attackSpeed) - (0.1f * multiAttack);
+
+            yield return new WaitForSeconds(Mathf.Max(delay,0));
         }
+    }
+
+    private IEnumerator RecoveryCoroutine()
+    {
+        while (true)
+        {
+            yield return new WaitWhile(() => isDead);
+            yield return new WaitUntil(() => (hp < maxHp && hpRecovery != 0));
+            recoveryParticle.Play();
+            yield return new WaitForSeconds(5f);
+            hp += hpRecovery;
+            if(hp>maxHp) hp = maxHp;
+        }
+    }
+
+    public void ReStart()
+    {
+        hp = maxHp;
+        transform.position = startPosition;
+        target = null;
+        isTarget = false;
+       isDead = false;
     }
 }

@@ -4,7 +4,6 @@ using UnityEngine;
 
 public class Projectile : MonoBehaviour
 {
-    public Transform target;
     public float moveSpeed;
     private Animator animator;
 
@@ -14,25 +13,25 @@ public class Projectile : MonoBehaviour
     }
     private void OnEnable()
     {
-      ProjectilePool.pool.Push(this, 3f);
+        ProjectilePool.pool.Push(this, 3f);
     }
 
     private void Update()
     {
-        if (target == null) ProjectilePool.pool.Push(this);
         Move();
     }
     private void Move()
     {
-        transform.Translate((target.position-transform.position)*Time.deltaTime*moveSpeed);
+        transform.Translate(Vector2.right*Time.deltaTime*moveSpeed);
     }
     private void OnTriggerEnter2D(Collider2D collision)
     {
         if (collision.TryGetComponent<Enemy>(out Enemy enemy))
         {
+            if (enemy.isDead) return;
             animator.SetTrigger("Hit");
             enemy.TakeDamage(GameManager.Instance.player.DealDamage());
-            ProjectilePool.pool.Push(this,0.15f);
+            ProjectilePool.pool.Push(this,0.1f);
         }
     }
 

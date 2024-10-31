@@ -4,17 +4,15 @@ using UnityEngine;
 
 public class Enemy : MonoBehaviour
 {
-    private float hp = 1f;
+    public float hp;
     private float moveSpeed = 1f;
     private float money = 10f;
-    public float damage = 1f;
-    public Transform target;
-    private Animator animator;
-    //public EnemyData enemyData;
-    //public SpriteRenderer spriteRenderer;
-    private bool isTarget = false;
+    public float damage;
+    private bool isTarget;
     public bool isDead ;
 
+    public Transform target;
+    private Animator animator;
     public SpriteRenderer spriteRenderer;
 
     private void Awake()
@@ -24,31 +22,22 @@ public class Enemy : MonoBehaviour
 
     private void OnEnable()
     {
-        //OnEnable이  start보다 먼저 일어나므로 오류가 발생
-        //에너미를 생성할 때 에너미의 타겟을 변경하는 것으로 수정할 예정
-        //if (GameManager.Instance != null)
-        //    target = GameManager.Instance.player.transform;
-
-        //에너미 데이터에 따라 다른 모습의 에너미를 만들려 했으나
-        //기획자의 의도대로 먼저 만들 예정이라 보류 중
-        //if (enemyData != null)
-        //{
-        //    gameObject.name=enemyData.name;
-        //    hp=enemyData.hp;
-        //    money=enemyData.money;
-        //    moveSpeed=enemyData.moveSpeed;
-        //    spriteRenderer.sprite = enemyData.enemySprite; 
-        //    damage =enemyData.damage;
-        //}
         if(GameManager.Instance != null)
             GameManager.Instance.enemyList.Add(this);
         StartCoroutine(AttackCoroutine());
         isDead = false;
+        isTarget = false;
+    }
+
+    private void OnDisable()
+    {
+        GameManager.Instance.enemyList.Remove(this);
+        spriteRenderer.color = Color.white;
     }
 
     private void Update()
     {
-        if (target != null)
+        if (target != null && !isDead)
         {
             float dic = Vector2.Distance(target.position, transform.position);
 
@@ -74,17 +63,17 @@ public class Enemy : MonoBehaviour
         {
             isDead = true;
             StopCoroutine(AttackCoroutine());
+            animator.SetBool("IsMoving", false);
             animator.SetTrigger("Death");
-            EnemyPool.pool.Push(this,0.2f);
+            EnemyPool.pool.Push(this,0.5f);
             GameManager.money += this.money;
         }
     }
+
     private void Move()
     {
         transform.Translate((target.position-transform.position).normalized*moveSpeed*Time.deltaTime);
     }
-
-
 
     private IEnumerator HitCoroutine()
     {
@@ -99,12 +88,11 @@ public class Enemy : MonoBehaviour
     {
         while (true)
         {
-            yield return new WaitUntil(()=>isTarget);
+            yield return new WaitUntil(()=>isTarget&&!isDead);
             animator.SetBool("IsAttack", true);
             yield return new WaitForSeconds(1f);
             GameManager.Instance.player.TakeDamage(damage);
             animator.SetBool("IsAttack", false);
         }
     }
-
 }

@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class GameManager : SingletonManager<GameManager>
@@ -8,6 +9,7 @@ public class GameManager : SingletonManager<GameManager>
     public Player player;
     public static float money;
     public PlayerData playerData;
+    public EnemySpawner enemySpawner;
 
     public void PlayerDataSave()
     {
@@ -22,13 +24,14 @@ public class GameManager : SingletonManager<GameManager>
 
     public IEnumerator PlayerDead()
     {
-        yield return null;
-
-        foreach (Enemy enemy in enemyList)
+        List<Enemy> enemys = new List<Enemy>(enemyList);
+        foreach (Enemy enemy in enemys)
         {
             EnemyPool.pool.Push(enemy);
         }
-
+        enemyList.Clear();
+        enemySpawner.round = 0;
+        yield return new WaitForSeconds(3f);
+        player.ReStart();
     }
-
 }

@@ -14,13 +14,13 @@ public class GameControlPanel : MonoBehaviour
 
     private void Start()
     {
+        gameSpeedText.text = Time.timeScale.ToString();
         gameSpeedButton.onClick.AddListener(OnSpeedButtonClick);
         exitPanelOpenButton.onClick.AddListener(OnExitPanelOpenButtonClick);
     }
 
     private void Update()
     {
-        gameSpeedText.text = Time.timeScale.ToString();
         if (GameManager.Instance != null)
             moneyText.text = GameManager.money.ToString();
     }
@@ -33,6 +33,7 @@ public class GameControlPanel : MonoBehaviour
             Time.timeScale = 0.5f;
         else
             Time.timeScale += 1;
+        gameSpeedText.text = Time.timeScale.ToString();
     }
 
     private void OnExitPanelOpenButtonClick()
