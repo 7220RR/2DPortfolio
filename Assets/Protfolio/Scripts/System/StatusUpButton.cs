@@ -31,26 +31,26 @@ public class StatusUpButton : MonoBehaviour
         switch (statusName)
         {
             case "공격력":
-                GameManager.Instance.player.damage += amount;
+                GameManager.Instance.player.status.damage += amount;
                 break;
             case "체력":
-                GameManager.Instance.player.hp += amount;
-                GameManager.Instance.player.maxHp += amount;
+                GameManager.Instance.player.status.hp += amount;
+                GameManager.Instance.player.status.maxHp += amount;
                 break;
             case "체력회복":
-                GameManager.Instance.player.hpRecovery += amount;
+                GameManager.Instance.player.status.hpRecovery += amount;
                 break;
             case "치명타확률":
-                GameManager.Instance.player.criticalHitChance+= amount;
+                GameManager.Instance.player.status.criticalHitChance+= amount;
                 break;
             case "치명타피해":
-                GameManager.Instance.player.CriticalHitDamage+= amount;
+                GameManager.Instance.player.status.CriticalHitDamage+= amount;
                 break;
             case "공격속도":
-                GameManager.Instance.player.attackSpeed += amount;
+                GameManager.Instance.player.status.attackSpeed += amount;
                 break;
             case "더블샷":
-                GameManager.Instance.player.multiAttack += (int)amount;
+                GameManager.Instance.player.status.multiAttack += (int)amount;
                 break;
             default:
                 print("이름이 맞지 않습니다.");

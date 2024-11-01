@@ -12,10 +12,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 49ad532dc0e0cdb4980c824c37d4893c, type: 3}
   m_Name: Player
   m_EditorClassIdentifier: 
-  damage: 1
-  hp: 5
-  hpRecovery: 0
-  criticalHitChance: 0
-  CriticalHitDamage: 100
-  attackSpeed: 1
-  multiAttack: 0
+  status:
+    damage: 1
+    hp: 5
+    maxHp: 0
+    hpRecovery: 0
+    CriticalHitDamage: 100
+    attackSpeed: 1
+    multiAttack: 0

@@ -10,15 +10,16 @@ public class GameManager : SingletonManager<GameManager>
     public PlayerData playerData;
     public EnemySpawner enemySpawner;
 
+    private void Start()
+    {
+         money = playerData.status.money;
+    }
+
     public void PlayerDataSave()
     {
-        playerData.damage = player.damage;
-        playerData.hp = player.hp;
-        playerData.hpRecovery = player.hpRecovery;
-        playerData.criticalHitChance = player.criticalHitChance;
-        playerData.CriticalHitDamage = player.CriticalHitDamage;
-        playerData.attackSpeed = player.attackSpeed;
-        playerData.multiAttack = player.multiAttack;
+        playerData.status = player.status;
+        playerData.status.hp = player.status.maxHp;
+        playerData.status.money = money;
     }
 
     public IEnumerator PlayerDead()
@@ -30,7 +31,6 @@ public class GameManager : SingletonManager<GameManager>
         }
         enemyList.Clear();
         enemySpawner.round = 0;
-        PlayerDataSave();
         yield return new WaitForSeconds(3f);
         player.ReStart();
     }
