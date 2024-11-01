@@ -1,6 +1,5 @@
 using System.Collections;
 using System.Collections.Generic;
-using Unity.VisualScripting;
 using UnityEngine;
 
 public class GameManager : SingletonManager<GameManager>
@@ -31,6 +30,7 @@ public class GameManager : SingletonManager<GameManager>
         }
         enemyList.Clear();
         enemySpawner.round = 0;
+        PlayerDataSave();
         yield return new WaitForSeconds(3f);
         player.ReStart();
     }

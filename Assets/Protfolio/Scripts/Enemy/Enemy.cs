@@ -33,6 +33,7 @@ public class Enemy : MonoBehaviour
     {
         GameManager.Instance.enemyList.Remove(this);
         spriteRenderer.color = Color.white;
+        target = null;
     }
 
     private void Update()
@@ -91,6 +92,7 @@ public class Enemy : MonoBehaviour
             yield return new WaitUntil(()=>isTarget&&!isDead);
             animator.SetBool("IsAttack", true);
             yield return new WaitForSeconds(1f);
+            yield return new WaitUntil(()=>isTarget&&!isDead);
             GameManager.Instance.player.TakeDamage(damage);
             animator.SetBool("IsAttack", false);
         }

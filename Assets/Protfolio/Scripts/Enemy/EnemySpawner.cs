@@ -15,14 +15,14 @@ public class EnemySpawner : MonoBehaviour
     {
         yield return null;
         float x = 4;
-        for (int i = 0; i < 10; i++)
+        for (int i = 1; i <= 10; i++)
         {
             float y = Random.Range(0.5f , 2.3f);
             Enemy enemy = EnemyPool.pool.Pop();
             enemy.transform.position = new Vector3(x + (i * 1.5f), y, 0f);
             enemy.target = GameManager.Instance.player.transform;
-            enemy.damage = (round*10) +(1 * i);
-            enemy.hp =(round+1)+ (0.1f * i);
+            enemy.damage = 1+(round*10) +(1 * i);
+            enemy.hp =round+ (0.1f * i)+1;
         }
         round++;
     }
