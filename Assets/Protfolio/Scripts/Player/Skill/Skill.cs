@@ -8,14 +8,18 @@ public abstract class Skill : MonoBehaviour
     public float damage;
     public float coolTime;
     public bool isSkillBuy;
-    public Enemy target;
+
+    private bool isCoolTime = false;
+    private float remainingCoolTime; 
 
     public abstract void OnButtonClieck();
 
-    public void FindTarget()
+    public Enemy FindTarget()
     {
+        Enemy target = null;
+
         if (GameManager.Instance.enemyList.Count <= 0)
-            return;
+            return target;
 
         float targetDic = float.MaxValue;
 
@@ -29,5 +33,27 @@ public abstract class Skill : MonoBehaviour
                 targetDic = dic;   
             }
         }
+
+        return target;
+    }
+
+    protected IEnumerator CoolTimeCoroutine()
+    {
+        isCoolTime = true;
+        remainingCoolTime = coolTime;
+
+        while (remainingCoolTime > 0)
+        {
+            remainingCoolTime -= Time.deltaTime;
+            yield return null;
+        }
+
+        isCoolTime=false;
+        remainingCoolTime = 0f;
+    }
+
+    public float GetRemainingCoolTime()
+    {
+        return Mathf.CeilToInt(remainingCoolTime);
     }
 }
