@@ -12,8 +12,12 @@ public class GameControlPanel : MonoBehaviour
     public TextMeshProUGUI moneyText;
     public TextMeshProUGUI gameSpeedText;
 
+    private float[] gameSpeeds = {0.5f,1f,2f,3f };
+    private int gameSpeedsIndex = 1;
+
     private void Start()
     {
+        Time.timeScale = gameSpeeds[gameSpeedsIndex];
         gameSpeedText.text = Time.timeScale.ToString();
         gameSpeedButton.onClick.AddListener(OnSpeedButtonClick);
         exitPanelOpenButton.onClick.AddListener(OnExitPanelOpenButtonClick);
@@ -27,12 +31,8 @@ public class GameControlPanel : MonoBehaviour
 
     private void OnSpeedButtonClick()
     {
-        if (Time.timeScale == 0.5f)
-            Time.timeScale = 1.0f;
-        else if (Time.timeScale == 3)
-            Time.timeScale = 0.5f;
-        else
-            Time.timeScale += 1;
+        gameSpeedsIndex= (gameSpeedsIndex+1) % gameSpeeds.Length;
+        Time.timeScale = gameSpeeds[gameSpeedsIndex];
         gameSpeedText.text = Time.timeScale.ToString();
     }
 

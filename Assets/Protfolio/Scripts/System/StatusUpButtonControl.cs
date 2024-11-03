@@ -4,19 +4,18 @@ using UnityEngine;
 
 public class StatusUpButtonControl : MonoBehaviour
 {
-    public StatusUpButton statusUB;
-    public string[] statusName;
-    public float[] amouant;
-    public Sprite[] icon;
+    public StatusUpButton statusUBP;
+    public StatusUpgradeData[] datas;
 
     private void Start()
     {
-        for(int i=0; i < statusName.Length; i++)
+        if (GameManager.Instance != null)
+            datas = GameManager.Instance.playerData.datas;
+
+        for(int i=0; i<datas.Length; i++)
         {
-            StatusUpButton button = Instantiate(statusUB,transform);
-            button.statusName = statusName[i];
-            button.icon.sprite = icon[i];
-            button.amount = amouant[i];
+            StatusUpButton button = Instantiate(statusUBP,transform);
+            button.data = datas[i];
         }
     }
 }

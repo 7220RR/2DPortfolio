@@ -38,7 +38,7 @@ public class Projectile : MonoBehaviour
         if(target !=null)
         {
             centerPos = ((transform.position + target.position) * 0.5f);
-            endPos = centerPos + (centerPos - transform.position).normalized;
+            endPos = centerPos + (centerPos - transform.position);
         }
     }
 

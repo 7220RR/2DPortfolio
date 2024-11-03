@@ -6,4 +6,5 @@ using UnityEngine;
 public class PlayerData : ScriptableObject
 {
     public PlayerStatus status;
+    public StatusUpgradeData[] datas;
 }

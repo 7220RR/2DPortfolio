@@ -9,7 +9,7 @@ public class UIManager : SingletonManager<UIManager>
     public Button exitYesB;
     public Button exitNoB;
 
-    private float timeS;
+    private float originalTimeScale;
 
     private void Start()
     {
@@ -22,7 +22,7 @@ public class UIManager : SingletonManager<UIManager>
     
     public void OnExitPanel()
     {
-        timeS = Time.timeScale;
+        originalTimeScale = Time.timeScale;
         Time.timeScale = 0;
         exitPanel.SetActive(true);
         exitSubPanel.SetActive(true);
@@ -36,7 +36,7 @@ public class UIManager : SingletonManager<UIManager>
 
     public void OffExitPanel()
     {
-        Time.timeScale = timeS;
+        Time.timeScale = originalTimeScale;
         exitPanel.SetActive(false);
         exitSubPanel.SetActive(false);
     }

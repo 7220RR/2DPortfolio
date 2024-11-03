@@ -17,7 +17,7 @@ public class EnemySpawner : MonoBehaviour
         float x = 4;
         for (int i = 1; i <= 10; i++)
         {
-            float y = Random.Range(0.5f , 2.3f);
+            float y = UnityEngine.Random.Range(0.5f , 2.3f);
             Enemy enemy = EnemyPool.pool.Pop();
             enemy.transform.position = new Vector3(x + (i * 1.5f), y, 0f);
             enemy.target = GameManager.Instance.player.transform;

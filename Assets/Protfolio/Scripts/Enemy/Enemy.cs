@@ -8,7 +8,7 @@ public class Enemy : MonoBehaviour
     private float moveSpeed = 1f;
     private float money = 10f;
     public float damage;
-    private bool isTarget;
+    private bool isTargetInRange;
     public bool isDead ;
 
     public Transform target;
@@ -26,7 +26,7 @@ public class Enemy : MonoBehaviour
             GameManager.Instance.enemyList.Add(this);
         StartCoroutine(AttackCoroutine());
         isDead = false;
-        isTarget = false;
+        isTargetInRange = false;
     }
 
     private void OnDisable()
@@ -45,13 +45,13 @@ public class Enemy : MonoBehaviour
             if (dic > 2f)
             {
                 animator.SetBool("IsMoving", true);
-                isTarget = false;
+                isTargetInRange = false;
                 Move();
             }
             else
             {
                 animator.SetBool("IsMoving", false);
-                isTarget = true;
+                isTargetInRange = true;
             }
         }
     }
@@ -89,10 +89,10 @@ public class Enemy : MonoBehaviour
     {
         while (true)
         {
-            yield return new WaitUntil(()=>isTarget&&!isDead);
+            yield return new WaitUntil(()=>isTargetInRange&&!isDead);
             animator.SetBool("IsAttack", true);
             yield return new WaitForSeconds(1f);
-            yield return new WaitUntil(()=>isTarget&&!isDead);
+            yield return new WaitUntil(()=>isTargetInRange&&!isDead);
             GameManager.Instance.player.TakeDamage(damage);
             animator.SetBool("IsAttack", false);
         }
