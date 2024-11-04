@@ -5,14 +5,18 @@ using UnityEngine;
 public abstract class Skill : MonoBehaviour
 {
     public string skillName;
-    public float damage;
+    public string skillInformation_1;
+    public string skillInformation_2;
+    public float damageMultiplier;
     public float coolTime;
-    public bool isSkillBuy;
+    public float unlockMoney;
+    public bool isSkillBuy = false;
+    public bool isCoolTime = false;
+    private float remainingCoolTime;
 
-    private bool isCoolTime = false;
-    private float remainingCoolTime; 
+    public abstract void Start();
 
-    public abstract void OnButtonClieck();
+    public abstract void OnSkill();
 
     public Enemy FindTarget()
     {
@@ -23,14 +27,14 @@ public abstract class Skill : MonoBehaviour
 
         float targetDic = float.MaxValue;
 
-        foreach(Enemy enemy in GameManager.Instance.enemyList)
+        foreach (Enemy enemy in GameManager.Instance.enemyList)
         {
             float dic = Vector2.Distance(GameManager.Instance.player.transform.position, enemy.transform.position);
-            
-            if(dic < targetDic)
+
+            if (dic < targetDic)
             {
                 target = enemy;
-                targetDic = dic;   
+                targetDic = dic;
             }
         }
 
@@ -48,12 +52,33 @@ public abstract class Skill : MonoBehaviour
             yield return null;
         }
 
-        isCoolTime=false;
+        isCoolTime = false;
         remainingCoolTime = 0f;
     }
 
     public float GetRemainingCoolTime()
     {
         return Mathf.CeilToInt(remainingCoolTime);
+    }
+
+    public float DealDamage()
+    {
+        float playerDamage = GameManager.Instance.player.status.damage / 100;
+        return playerDamage * damageMultiplier;
+    }
+
+    public void UnlockSkill()
+    {
+        if (GameManager.money >= unlockMoney)
+        {
+            GameManager.money -= unlockMoney;
+            isSkillBuy = true;
+            OnSkill();
+        }
+    }
+
+    public void Reset()
+    {
+        Start();
     }
 }

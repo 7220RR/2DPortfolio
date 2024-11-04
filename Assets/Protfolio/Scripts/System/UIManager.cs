@@ -5,6 +5,7 @@ using UnityEngine.UI;
 public class UIManager : SingletonManager<UIManager>
 {
     public GameObject exitSubPanel;
+    public GameObject skillSubPanel;
     public GameObject exitPanel;
     public Button exitYesB;
     public Button exitNoB;
@@ -14,11 +15,11 @@ public class UIManager : SingletonManager<UIManager>
     private void Start()
     {
         exitSubPanel.SetActive(false);
+        skillSubPanel.SetActive(false);
         exitPanel.SetActive(false);
         exitYesB.onClick.AddListener(OnExitButtonClick);
         exitNoB.onClick.AddListener(OffExitPanel);
     }
-
     
     public void OnExitPanel()
     {
@@ -40,9 +41,5 @@ public class UIManager : SingletonManager<UIManager>
         exitPanel.SetActive(false);
         exitSubPanel.SetActive(false);
     }
-
-    
-
-
 
 }
