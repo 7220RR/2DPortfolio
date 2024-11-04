@@ -17,6 +17,8 @@ public class UIManager : SingletonManager<UIManager>
         exitSubPanel.SetActive(false);
         skillSubPanel.SetActive(false);
         exitPanel.SetActive(false);
+        exitYesB.onClick.RemoveAllListeners();
+        exitNoB.onClick.RemoveAllListeners();
         exitYesB.onClick.AddListener(OnExitButtonClick);
         exitNoB.onClick.AddListener(OffExitPanel);
     }

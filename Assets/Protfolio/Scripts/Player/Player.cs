@@ -74,7 +74,7 @@ public class Player : MonoBehaviour
         foreach (Enemy enemy in GameManager.Instance.enemyList)
         {
             if(enemy.isDead) continue;
-
+            if(enemy.transform.position.x > 3f) continue; 
             float dic = Vector2.Distance(enemy.transform.position , transform.position);
 
             if (dic < targetDic)
@@ -100,7 +100,7 @@ public class Player : MonoBehaviour
             MoveToStart();
     }
 
-    private void Move(Vector2 targetPosition)
+    private void Move(Vector3 targetPosition)
     {
         backGrounds.Move();
 
@@ -108,6 +108,9 @@ public class Player : MonoBehaviour
 
         float dic = Vector2.Distance(targetPosition, rb.position);
         rb.MovePosition(Vector2.Lerp(transform.position, targetPosition, Time.deltaTime * moveSpeed * (dic > move_min_distance ? 1 : 0)));
+
+        if (transform.position == targetPosition)
+            animator.SetBool("IsMoving", false);
     }
 
     private void MoveToStart()

@@ -16,6 +16,7 @@ public class StatusUpButton : MonoBehaviour
     private void Start()
     {
         icon.sprite = data.icon;
+        button.onClick.RemoveAllListeners();
         button.onClick.AddListener(OnButtonClick);
         upOfMoneyText.text = $"G {data.lv * 10}";
         statusNameText.text = data.statusName;

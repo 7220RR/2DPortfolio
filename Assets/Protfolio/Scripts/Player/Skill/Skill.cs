@@ -31,6 +31,9 @@ public abstract class Skill : MonoBehaviour
         {
             float dic = Vector2.Distance(GameManager.Instance.player.transform.position, enemy.transform.position);
 
+            if (enemy.isDead || enemy.transform.position.x > 3f)
+                continue;
+
             if (dic < targetDic)
             {
                 target = enemy;
@@ -54,6 +57,8 @@ public abstract class Skill : MonoBehaviour
 
         isCoolTime = false;
         remainingCoolTime = 0f;
+
+        OnSkill();
     }
 
     public float GetRemainingCoolTime()
@@ -75,10 +80,5 @@ public abstract class Skill : MonoBehaviour
             isSkillBuy = true;
             OnSkill();
         }
-    }
-
-    public void Reset()
-    {
-        Start();
     }
 }

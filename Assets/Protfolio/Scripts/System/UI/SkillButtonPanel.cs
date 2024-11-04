@@ -17,6 +17,7 @@ public class SkillButtonPanel : MonoBehaviour
             if (skills[i] == null) continue;
             SkillButton button = Instantiate(skillButtonPrefab, transform);
             Skill skill = Instantiate(skills[i], button.transform);
+            button.skillNameText.text = "Skill" + (i + 1);
             button.skilldata = skill;
             button.information = informationPanel;
         }

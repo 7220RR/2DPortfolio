@@ -11,6 +11,8 @@ public class SkillButton : MonoBehaviour
     public SkillInformation information;
     public Button button;
 
+    public TextMeshProUGUI skillNameText;
+
     public GameObject coolTimeImage;
     public TextMeshProUGUI coolTimeText;
 
@@ -19,6 +21,7 @@ public class SkillButton : MonoBehaviour
         button = GetComponent<Button>();
         if (button != null)
         {
+            button.onClick.RemoveAllListeners();
             button.onClick.AddListener(() => information.SetSkillData(skilldata));
             button.onClick.AddListener(information.OnInformationPanel);
         }
@@ -30,10 +33,9 @@ public class SkillButton : MonoBehaviour
     {
         while (true)
         {
-            coolTimeText.gameObject.SetActive(skilldata.isCoolTime); 
+            coolTimeImage.gameObject.SetActive(skilldata.isCoolTime); 
             yield return new WaitUntil(()=>skilldata.isCoolTime);
-            yield return new WaitForEndOfFrame();
-            coolTimeText.text = skilldata.GetRemainingCoolTime().ToString();
+            coolTimeText.text = skilldata.GetRemainingCoolTime().ToString()+"s";
         }
     }
 

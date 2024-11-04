@@ -1,0 +1,58 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &1156379739620078656
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 5118195766120147096}
+  - component: {fileID: 6937811005378873188}
+  m_Layer: 0
+  m_Name: StarLight
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &5118195766120147096
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1156379739620078656}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &6937811005378873188
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1156379739620078656}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d19e8fe467121d841afa4398eada7be2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  skillName: "\uC2A4\uD0C0\uB77C\uC774\uD2B8"
+  skillInformation_1: "\uB3CC\uC815\uB839 \uBA38\uB9AC \uC704\uB85C \uD22C\uC0AC\uCCB4\uB97C
+    10\uAC1C \uC18C\uD658"
+  skillInformation_2: "\uB3CC\uC815\uB839\uACFC \uAC00\uC7A5 \uAC00\uAE4C\uC6B4 \uBAAC\uC2A4\uD130\uC5D0\uAC8C
+    \uB0A0\uC544\uAC00 \uBD80\uB52A\uCE58\uBA70 \uD53C\uD574\uB97C \uC8FC\uACE0 \uC0AC\uB77C\uC9D0."
+  damageMultiplier: 150
+  coolTime: 7
+  unlockMoney: 0
+  isSkillBuy: 0
+  isCoolTime: 0
+  projectilePrefab: {fileID: 7553315064699472635, guid: 0847ec814cd306540a4135dec95ba3e4, type: 3}
+  projectileCount: 10

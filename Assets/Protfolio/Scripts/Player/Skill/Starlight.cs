@@ -21,13 +21,7 @@ public class Starlight : Skill
 
     public override void OnSkill()
     {
-        StopAllCoroutines();
-        while (true)
-        {
-            if (!isCoolTime)
-                _ = StartCoroutine(SpawnProjectile());
-            _ = StartCoroutine(CoolTimeCoroutine());
-        }
+        _ = StartCoroutine(SpawnProjectile());
     }
 
     private IEnumerator SpawnProjectile()
@@ -41,21 +35,29 @@ public class Starlight : Skill
             StarlightProjectile proj = Instantiate(projectilePrefab, spawnPos, Quaternion.identity);
             proj.damage = DealDamage();
 
-            StartCoroutine(ProjectileFire(proj));
+            proj.StartCoroutine(ProjectileFire(proj));
             yield return new WaitForSeconds(0.1f);
         }
+
+        StartCoroutine(CoolTimeCoroutine());
     }
 
     private IEnumerator ProjectileFire(StarlightProjectile proj)
     {
         Enemy target = FindTarget();
-        Vector2 direction = (target.transform.position - proj.transform.position).normalized;
+        Vector2 direction;
+        if(target != null)
+        direction = (target.transform.position - proj.transform.position).normalized;
+        else
+            direction = (new Vector3(3,1) - proj.transform.position).normalized;
 
-        Destroy(proj.gameObject, 5f);
+        Destroy(proj.gameObject, 3f);
 
         while (true)
         {
-            proj.transform.Translate(direction*1f*Time.deltaTime);
+            proj.transform.Translate(direction*2.5f*Time.deltaTime);
+            if (proj.transform.position.x >= 3.5f)
+                Destroy(proj.gameObject);
 
             yield return null;
         }

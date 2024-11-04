@@ -19,6 +19,8 @@ public class GameControlPanel : MonoBehaviour
     {
         Time.timeScale = gameSpeeds[gameSpeedsIndex];
         gameSpeedText.text = Time.timeScale.ToString();
+        gameSpeedButton.onClick.RemoveAllListeners();
+        exitPanelOpenButton.onClick.RemoveAllListeners();
         gameSpeedButton.onClick.AddListener(OnSpeedButtonClick);
         exitPanelOpenButton.onClick.AddListener(OnExitPanelOpenButtonClick);
     }
