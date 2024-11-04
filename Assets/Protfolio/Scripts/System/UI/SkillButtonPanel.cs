@@ -5,14 +5,16 @@ using UnityEngine;
 public class SkillButtonPanel : MonoBehaviour
 {
     public SkillInformation informationPanel;
-    public Skill[] skills;
+    private List<Skill> skills = new();
     public SkillButton skillButtonPrefab;
 
     private void Start()
     {
         informationPanel.gameObject.SetActive(false);
 
-        for (int i = 0; i < skills.Length; i++)
+        skills = GameManager.Instance.playerData.skills;
+
+        for (int i = 0; i < skills.Count; i++)
         {
             if (skills[i] == null) continue;
             SkillButton button = Instantiate(skillButtonPrefab, transform);

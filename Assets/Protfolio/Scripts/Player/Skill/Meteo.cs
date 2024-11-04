@@ -8,9 +8,9 @@ public class Meteo : Skill
 
     public override void Start()
     {
-        skillName = "¸ŞÅ×¿À";
-        skillInformation_1 = "Ä«¸Ş¶ó È­¸é »ó´Ü¿¡ ¸ŞÅ×¿À¸¦ 1°³ ¼ÒÈ¯ÇÔ";
-        skillInformation_2 = "¸ó½ºÅÍ¸¦ ÃßÀûÇÏ¸ç ³«ÇÏÇÏ¿© ÇÇÇØ¸¦ ÁÜ";
+        skillName = "ë©”í…Œì˜¤";
+        skillInformation_1 = "ì¹´ë©”ë¼ í™”ë©´ ìƒë‹¨ì— ë©”í…Œì˜¤ë¥¼ 1ê°œ ì†Œí™˜í•¨";
+        skillInformation_2 = "ëª¬ìŠ¤í„°ë¥¼ ì¶”ì í•˜ë©° ë‚™í•˜í•˜ì—¬ í”¼í•´ë¥¼ ì¤Œ";
         damageMultiplier = 1200f;
         coolTime = 3f;
         unlockMoney = 30f;
@@ -22,9 +22,9 @@ public class Meteo : Skill
     {
         Vector2 spawnPos = new Vector2(-5, 6);
         MeteoProjectile proj = Instantiate(projectilePrefab, spawnPos, Quaternion.identity);
-        Destroy(proj.gameObject, 1f);
         proj.damage = DealDamage();
         proj.StartCoroutine(ProjectileMoveCoroutine(proj));
+        Destroy(proj.gameObject, 1f);
         StartCoroutine(CoolTimeCoroutine());
     }
 

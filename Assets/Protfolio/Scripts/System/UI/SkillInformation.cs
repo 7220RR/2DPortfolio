@@ -17,18 +17,28 @@ public class SkillInformation : MonoBehaviour
     private void OnEnable()
     {
         if (skilldata == null) return;
+        
+        UpdateSkillInformation(); 
+        
+        InitializeButtonListeners();
+
+        yButton.gameObject.SetActive(!skilldata.isSkillBuy);
+        nButton.gameObject.SetActive(!skilldata.isSkillBuy);
+    }
+
+    private void UpdateSkillInformation(){
         skillNameText.text = skilldata.skillName;
         skillInformationText1.text = skilldata.skillInformation_1;
         skillInformationText2.text = skilldata.skillInformation_2;
+    }
+
+    private void InitializeButtonListeners(){
         yButton.onClick.RemoveAllListeners();
         nButton.onClick.RemoveAllListeners();
         yButton.onClick.AddListener(skilldata.UnlockSkill);
         yButton.onClick.AddListener(OffInformationPanel);
         nButton.onClick.AddListener(OffInformationPanel);
-        yButton.gameObject.SetActive(!skilldata.isSkillBuy);
-        nButton.gameObject.SetActive(!skilldata.isSkillBuy);
     }
-
     public void OffInformationPanel()
     {
         Time.timeScale = tScale;

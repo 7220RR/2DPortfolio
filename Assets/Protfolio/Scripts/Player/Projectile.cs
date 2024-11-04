@@ -57,7 +57,8 @@ public class Projectile : MonoBehaviour
 
         targetDic = (centerPos - transform.position).normalized;
 
-        if (Vector3.Distance(transform.position, endPos) <= 0.1f)
+        //if (Vector3.Distance(transform.position, endPos) <= 0.1f)
+        if(transform.position.y <= GameManager.Instance.player.transform.position.y)
             isRotated = false;
         if(isRotated)
         transform.rotation = Quaternion.FromToRotation(Vector3.down, targetDic);

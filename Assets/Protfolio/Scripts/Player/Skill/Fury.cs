@@ -13,9 +13,9 @@ public class Fury : Skill
     public override void Start()
     {
         animator =GameManager.Instance.player.GetComponent<Animator>();
-        skillName = "ºĞ³ë";
-        skillInformation_1 = "°ø°İ·ÂÀ» 10ÃÊ°£ 100ÆÛ »ó½Â½ÃÅ²´Ù";
-        skillInformation_2 = "¹öÇÁ";
+        skillName = "ë¶„ë…¸";
+        skillInformation_1 = "ê³µê²©ë ¥ì„ 10ì´ˆê°„ 100í¼ ìƒìŠ¹ì‹œí‚¨ë‹¤";
+        skillInformation_2 = "ë²„í”„";
         coolTime = 20f;
         unlockMoney = 10f;
         if (isSkillBuy)
@@ -24,7 +24,6 @@ public class Fury : Skill
 
     public override void OnSkill()
     {
-        print(animator);
         StartCoroutine(OnBuff());
     }
 
@@ -42,8 +41,7 @@ public class Fury : Skill
 
     private float BuffOnAmount()
     {
-        float baseA = GameManager.Instance.player.status.damage;
-        return baseA + ((baseA/100)*amount);
+        return baseAmount * (1 + amount/100);
     }
 
     private float BuffOffAmount()

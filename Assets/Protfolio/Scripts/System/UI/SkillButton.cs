@@ -33,7 +33,7 @@ public class SkillButton : MonoBehaviour
     {
         while (true)
         {
-            coolTimeImage.gameObject.SetActive(skilldata.isCoolTime); 
+            coolTimeImage.SetActive(skilldata.isCoolTime); 
             yield return new WaitUntil(()=>skilldata.isCoolTime);
             coolTimeText.text = skilldata.GetRemainingCoolTime().ToString()+"s";
         }
