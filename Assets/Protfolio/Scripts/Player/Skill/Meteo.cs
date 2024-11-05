@@ -6,7 +6,7 @@ public class Meteo : Skill
 {
     public MeteoProjectile projectilePrefab;
 
-    public override void Start()
+    protected override void Start()
     {
         skillName = "메테오";
         skillInformation_1 = "카메라 화면 상단에 메테오를 1개 소환함";
@@ -15,17 +15,20 @@ public class Meteo : Skill
         coolTime = 3f;
         unlockMoney = 30f;
         if (isSkillBuy)
-            OnSkill();
+            StartCoroutine(OnSkill());
     }
 
-    public override void OnSkill()
+    protected override IEnumerator OnSkill()
     {
         Vector2 spawnPos = new Vector2(-5, 6);
-        MeteoProjectile proj = Instantiate(projectilePrefab, spawnPos, Quaternion.identity);
-        proj.damage = DealDamage();
-        proj.StartCoroutine(ProjectileMoveCoroutine(proj));
-        Destroy(proj.gameObject, 1f);
-        StartCoroutine(CoolTimeCoroutine());
+        while (true)
+        {
+            MeteoProjectile proj = Instantiate(projectilePrefab, spawnPos, Quaternion.identity);
+            proj.damage = DealDamage();
+            proj.StartCoroutine(ProjectileMoveCoroutine(proj));
+            Destroy(proj.gameObject, 1f);
+            yield return StartCoroutine(CoolTimeCoroutine());
+        }
     }
 
     private IEnumerator ProjectileMoveCoroutine(MeteoProjectile proj)
@@ -34,7 +37,7 @@ public class Meteo : Skill
         Vector2 dic;
         while (true)
         {
-            if(enemy == null || enemy.isDead) enemy = FindTarget();
+            if (enemy == null || enemy.isDead) enemy = FindTarget();
             if (enemy != null)
                 dic = (enemy.transform.position - proj.transform.position).normalized;
             else

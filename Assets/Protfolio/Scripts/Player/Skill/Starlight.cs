@@ -5,9 +5,10 @@ using UnityEngine;
 public class Starlight : Skill
 {
     public StarlightProjectile projectilePrefab;
-    public int projectileCount = 10;
+    private const int projectileCount = 10;
+    private const float maxDistance = 3.5f;
 
-    public override void Start()
+    protected override void Start()
     {
         skillName = "스타라이트";
         skillInformation_1 = "돌정령 머리 위로 투사체를 10개 소환";
@@ -19,9 +20,13 @@ public class Starlight : Skill
             OnSkill();
     }
 
-    public override void OnSkill()
+    protected override IEnumerator OnSkill()
     {
-        _ = StartCoroutine(SpawnProjectile());
+        while (true)
+        {
+            yield return StartCoroutine(SpawnProjectile());
+            yield return StartCoroutine(CoolTimeCoroutine());
+        }
     }
 
     private IEnumerator SpawnProjectile()
@@ -30,7 +35,7 @@ public class Starlight : Skill
 
         for (int i = 0; i < projectileCount; i++)
         {
-            Vector2 spawnPos = playerPos + (Random.insideUnitCircle * 1.5f)+ (Vector2.up*2f);
+            Vector2 spawnPos = playerPos + (Random.insideUnitCircle * 1.5f) + (Vector2.up * 2f);
 
             StarlightProjectile proj = Instantiate(projectilePrefab, spawnPos, Quaternion.identity);
             proj.damage = DealDamage();
@@ -38,25 +43,24 @@ public class Starlight : Skill
             proj.StartCoroutine(ProjectileFire(proj));
             yield return new WaitForSeconds(0.1f);
         }
-
-        StartCoroutine(CoolTimeCoroutine());
     }
 
     private IEnumerator ProjectileFire(StarlightProjectile proj)
     {
         Enemy target = FindTarget();
         Vector2 direction;
-        if(target != null)
-        direction = (target.transform.position - proj.transform.position).normalized;
+
+        if (target != null)
+            direction = (target.transform.position - proj.transform.position).normalized;
         else
-            direction = (new Vector3(3,1) - proj.transform.position).normalized;
+            direction = (new Vector3(3, 1) - proj.transform.position).normalized;
 
         Destroy(proj.gameObject, 3f);
 
         while (true)
         {
-            proj.transform.Translate(direction*2.5f*Time.deltaTime);
-            if (proj.transform.position.x >= 3.5f)
+            proj.transform.Translate(direction * 2.5f * Time.deltaTime);
+            if (proj.transform.position.x >= maxDistance)
                 Destroy(proj.gameObject);
 
             yield return null;

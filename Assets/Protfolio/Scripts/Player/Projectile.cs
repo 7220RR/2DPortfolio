@@ -11,7 +11,6 @@ public class Projectile : MonoBehaviour
 
     private Vector3 targetDic;
     private Vector3 centerPos;
-    private Vector3 endPos;
 
     private void Awake()
     {
@@ -38,7 +37,6 @@ public class Projectile : MonoBehaviour
         if(target !=null)
         {
             centerPos = ((transform.position + target.position) * 0.5f);
-            endPos = centerPos + (centerPos - transform.position);
         }
     }
 
@@ -57,9 +55,9 @@ public class Projectile : MonoBehaviour
 
         targetDic = (centerPos - transform.position).normalized;
 
-        //if (Vector3.Distance(transform.position, endPos) <= 0.1f)
         if(transform.position.y <= GameManager.Instance.player.transform.position.y)
             isRotated = false;
+
         if(isRotated)
         transform.rotation = Quaternion.FromToRotation(Vector3.down, targetDic);
 

@@ -12,17 +12,14 @@ public class GameControlPanel : MonoBehaviour
     public TextMeshProUGUI moneyText;
     public TextMeshProUGUI gameSpeedText;
 
-    private float[] gameSpeeds = {0.5f,1f,2f,3f };
+    private float[] gameSpeeds = { 0.5f, 1f, 2f, 3f };
     private int gameSpeedsIndex = 1;
 
     private void Start()
     {
         Time.timeScale = gameSpeeds[gameSpeedsIndex];
         gameSpeedText.text = Time.timeScale.ToString();
-        gameSpeedButton.onClick.RemoveAllListeners();
-        exitPanelOpenButton.onClick.RemoveAllListeners();
-        gameSpeedButton.onClick.AddListener(OnSpeedButtonClick);
-        exitPanelOpenButton.onClick.AddListener(OnExitPanelOpenButtonClick);
+        InitializedButton();
     }
 
     private void Update()
@@ -31,15 +28,25 @@ public class GameControlPanel : MonoBehaviour
             moneyText.text = GameManager.money.ToString();
     }
 
+    private void InitializedButton()
+    {
+        gameSpeedButton.onClick.RemoveAllListeners();
+        exitPanelOpenButton.onClick.RemoveAllListeners();
+
+        gameSpeedButton.onClick.AddListener(OnSpeedButtonClick);
+        exitPanelOpenButton.onClick.AddListener(OnExitPanelOpenButtonClick);
+    }
+
     private void OnSpeedButtonClick()
     {
-        gameSpeedsIndex= (gameSpeedsIndex+1) % gameSpeeds.Length;
+        gameSpeedsIndex = (gameSpeedsIndex + 1) % gameSpeeds.Length;
         Time.timeScale = gameSpeeds[gameSpeedsIndex];
         gameSpeedText.text = Time.timeScale.ToString();
     }
 
     private void OnExitPanelOpenButtonClick()
     {
-        UIManager.Instance.OnExitPanel();
+        if (UIManager.Instance != null)
+            UIManager.Instance.OnExitPanel();
     }
 }

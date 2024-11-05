@@ -17,6 +17,11 @@ public class UIManager : SingletonManager<UIManager>
         exitSubPanel.SetActive(false);
         skillSubPanel.SetActive(false);
         exitPanel.SetActive(false);
+        InitializedButton();
+    }
+
+    private void InitializedButton()
+    {
         exitYesB.onClick.RemoveAllListeners();
         exitNoB.onClick.RemoveAllListeners();
         exitYesB.onClick.AddListener(OnExitButtonClick);
@@ -33,7 +38,6 @@ public class UIManager : SingletonManager<UIManager>
 
     private void OnExitButtonClick()
     {
-        GameManager.Instance.PlayerDataSave();
         Application.Quit();
     }
 

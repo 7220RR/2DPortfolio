@@ -8,7 +8,7 @@ public class MeteoProjectile : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if(collision.TryGetComponent<Enemy>(out Enemy enemy))
+        if (collision.TryGetComponent<Enemy>(out Enemy enemy))
         {
             if (enemy.isDead) return;
 

@@ -15,19 +15,38 @@ public class StatusUpButton : MonoBehaviour
 
     private void Start()
     {
-        icon.sprite = data.icon;
+        InitializeUI();
         button.onClick.RemoveAllListeners();
         button.onClick.AddListener(OnButtonClick);
-        upOfMoneyText.text = $"G {data.lv * 10}";
+    }
+
+    private void InitializeUI()
+    {
+        icon.sprite = data.icon;
         statusNameText.text = data.statusName;
+        UpdateUI();
+    }
+
+    private void UpdateUI()
+    {
+        upOfMoneyText.text = $"G {data.lv * 10}";
         statusValueText.text = $"{(data.lv - 1) * data.amount}";
     }
 
     private void OnButtonClick()
     {
         if (GameManager.money < data.lv * 10) return;
+
         GameManager.money -= data.lv * 10;
         data.lv++;
+        
+        StatusUpgrade();
+        UpdateUI();
+        UpdatePlayerData();
+    }
+
+    private void StatusUpgrade()
+    {
         switch (data.statusName)
         {
             case "공격력":
@@ -41,10 +60,10 @@ public class StatusUpButton : MonoBehaviour
                 GameManager.Instance.player.status.hpRecovery += data.amount;
                 break;
             case "치명타확률":
-                GameManager.Instance.player.status.criticalHitChance+= data.amount;
+                GameManager.Instance.player.status.criticalHitChance += data.amount;
                 break;
             case "치명타피해":
-                GameManager.Instance.player.status.CriticalHitDamage+= data.amount;
+                GameManager.Instance.player.status.CriticalHitDamage += data.amount;
                 break;
             case "공격속도":
                 GameManager.Instance.player.status.attackSpeed += data.amount;
@@ -56,9 +75,6 @@ public class StatusUpButton : MonoBehaviour
                 print("이름이 맞지 않습니다.");
                 break;
         }
-        upOfMoneyText.text = $"G {data.lv * 10}";
-        statusValueText.text = $"{(data.lv - 1) * data.amount}";
-        UpdatePlayerData();
     }
 
     private void UpdatePlayerData()
@@ -71,5 +87,6 @@ public class StatusUpButton : MonoBehaviour
                 break;
             }
         }
+        GameManager.Instance.PlayerDataSave();
     }
 }

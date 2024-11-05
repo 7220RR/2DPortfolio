@@ -6,7 +6,7 @@ public class Void : Skill
 {
     public VoidProjectile projectilePrefab;
 
-    public override void Start()
+    protected override void Start()
     {
         skillName = "보이드";
         skillInformation_1 = "기본공격이 발생하는 위치에 소환";
@@ -15,16 +15,19 @@ public class Void : Skill
         coolTime = 5f;
         unlockMoney = 10f;
         if (isSkillBuy)
-            OnSkill();
+            StartCoroutine(OnSkill());
     }
 
-    public override void OnSkill()
+    protected override IEnumerator OnSkill()
     {
-        Vector2 spawnPos = GameManager.Instance.player.transform.position + Vector3.right;
-        VoidProjectile proj = Instantiate(projectilePrefab,spawnPos,Quaternion.identity);    
-        proj.damage = DealDamage();
-        Destroy(proj.gameObject,3f);
-        StartCoroutine(CoolTimeCoroutine());
+        while (true)
+        {
+            Vector2 spawnPos = GameManager.Instance.player.transform.position + Vector3.right;
+            VoidProjectile proj = Instantiate(projectilePrefab, spawnPos, Quaternion.identity);
+            proj.damage = DealDamage();
+            Destroy(proj.gameObject, 3f);
+            yield return StartCoroutine(CoolTimeCoroutine());
+        }
     }
 
 }

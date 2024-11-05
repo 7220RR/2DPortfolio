@@ -2138,7 +2138,7 @@ Camera:
   near clip plane: 0.3
   far clip plane: 1000
   field of view: 60
-  orthographic: 1
+  orthographic: 0
   orthographic size: 5
   m_Depth: -1
   m_CullingMask:
@@ -2663,7 +2663,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &826195358
 RectTransform:
   m_ObjectHideFlags: 0
@@ -3542,12 +3542,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   informationPanel: {fileID: 826195361}
-  skills:
-  - {fileID: 6937811005378873188, guid: 5930351de80800d4eaccbe752cada58b, type: 3}
-  - {fileID: 5729844645766509615, guid: 70a03826c481fd849a261d112ae8dd4a, type: 3}
-  - {fileID: 8678909678667358100, guid: 16cd16412815a8543abe3adda7ae9fb6, type: 3}
-  - {fileID: 1059177636027006617, guid: 9e8885ad814c34c488f0379545e717b1, type: 3}
-  - {fileID: 1094144916153388962, guid: 66137635fe2678a4ea98e66b1716067d, type: 3}
   skillButtonPrefab: {fileID: 5162496106750906045, guid: c60da7269f5f8bd47b173edd8308800f, type: 3}
 --- !u!1 &1227479418
 GameObject:

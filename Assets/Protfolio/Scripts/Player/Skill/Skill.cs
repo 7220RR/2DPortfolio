@@ -7,18 +7,18 @@ public abstract class Skill : MonoBehaviour
     public string skillName;
     public string skillInformation_1;
     public string skillInformation_2;
-    public float damageMultiplier;
-    public float coolTime;
-    public float unlockMoney;
+    protected float damageMultiplier;
+    protected float coolTime;
+    protected float unlockMoney;
     public bool isSkillBuy = false;
     public bool isCoolTime = false;
     private float remainingCoolTime;
 
-    public abstract void Start();
+    protected abstract void Start();
 
-    public abstract void OnSkill();
+    protected abstract IEnumerator OnSkill();
 
-    public Enemy FindTarget()
+    protected Enemy FindTarget()
     {
         Enemy target = null;
 
@@ -57,8 +57,6 @@ public abstract class Skill : MonoBehaviour
 
         isCoolTime = false;
         remainingCoolTime = 0f;
-
-        OnSkill();
     }
 
     public float GetRemainingCoolTime()
@@ -66,7 +64,7 @@ public abstract class Skill : MonoBehaviour
         return Mathf.CeilToInt(remainingCoolTime);
     }
 
-    public float DealDamage()
+    protected float DealDamage()
     {
         float playerDamage = GameManager.Instance.player.status.damage / 100;
         return playerDamage * damageMultiplier;
@@ -78,7 +76,7 @@ public abstract class Skill : MonoBehaviour
         {
             GameManager.money -= unlockMoney;
             isSkillBuy = true;
-            OnSkill();
+            StartCoroutine(OnSkill());
         }
     }
 }

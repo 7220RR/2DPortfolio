@@ -49,10 +49,6 @@ MonoBehaviour:
     10\uAC1C \uC18C\uD658"
   skillInformation_2: "\uB3CC\uC815\uB839\uACFC \uAC00\uC7A5 \uAC00\uAE4C\uC6B4 \uBAAC\uC2A4\uD130\uC5D0\uAC8C
     \uB0A0\uC544\uAC00 \uBD80\uB52A\uCE58\uBA70 \uD53C\uD574\uB97C \uC8FC\uACE0 \uC0AC\uB77C\uC9D0."
-  damageMultiplier: 150
-  coolTime: 7
-  unlockMoney: 0
   isSkillBuy: 0
   isCoolTime: 0
   projectilePrefab: {fileID: 7553315064699472635, guid: 0847ec814cd306540a4135dec95ba3e4, type: 3}
-  projectileCount: 10

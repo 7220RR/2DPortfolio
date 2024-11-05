@@ -188,7 +188,6 @@ public class Player : MonoBehaviour
     public void ReStart()
     {
         status.hp = status.maxHp;
-        GameManager.Instance.PlayerDataSave();
         transform.position = startPosition;
         target = null;
         isTarget = false;

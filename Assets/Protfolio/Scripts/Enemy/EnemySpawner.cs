@@ -8,31 +8,34 @@ public class EnemySpawner : MonoBehaviour
 
     private void Start()
     {
-        StartCoroutine(SpwanCheak());
+        StartCoroutine(SpawnCheak());
     }
 
+    //에너미를 생성
     private IEnumerator EnemySpawn()
     {
-        yield return null;
         float x = 4;
         for (int i = 1; i <= 10; i++)
         {
-            float y = UnityEngine.Random.Range(0.5f , 2.3f);
+            float y = UnityEngine.Random.Range(0.5f, 2.3f);
             Enemy enemy = EnemyPool.pool.Pop();
             enemy.transform.position = new Vector3(x + (i * 1.5f), y, 0f);
             enemy.target = GameManager.Instance.player.transform;
-            enemy.damage = 1+(round*10) +(1 * i);
-            enemy.hp =round+ (0.1f * i)+1;
+            enemy.damage = 1 + (round * 10) + (1 * i);
+            enemy.hp = round + (0.1f * i) + 1;
+            yield return null;
         }
         round++;
     }
-    private IEnumerator SpwanCheak()
+
+    //생성된 에너미가 없는지 확인
+    private IEnumerator SpawnCheak()
     {
         while (true)
         {
             yield return new WaitUntil(() => GameManager.Instance.enemyList.Count <= 0);
             yield return new WaitForSeconds(3f);
-            StartCoroutine(EnemySpawn());
+            yield return StartCoroutine(EnemySpawn());
             yield return new WaitForSeconds(3f);
         }
     }

@@ -10,21 +10,25 @@ public class Fury : Skill
     private float baseAmount;
     private float buffAmount;
 
-    public override void Start()
+    protected override void Start()
     {
-        animator =GameManager.Instance.player.GetComponent<Animator>();
+        animator = GameManager.Instance.player.GetComponent<Animator>();
         skillName = "분노";
         skillInformation_1 = "공격력을 10초간 100퍼 상승시킨다";
         skillInformation_2 = "버프";
         coolTime = 20f;
         unlockMoney = 10f;
         if (isSkillBuy)
-            OnSkill();
+            StartCoroutine(OnSkill());
     }
 
-    public override void OnSkill()
+    protected override IEnumerator OnSkill()
     {
-        StartCoroutine(OnBuff());
+        while (true)
+        {
+            yield return StartCoroutine(OnBuff());
+            yield return StartCoroutine(CoolTimeCoroutine());
+        }
     }
 
     private IEnumerator OnBuff()
@@ -36,12 +40,11 @@ public class Fury : Skill
         yield return new WaitForSeconds(durationTime);
         animator.SetBool("Buff", false);
         GameManager.Instance.player.status.damage = BuffOffAmount();
-        StartCoroutine(CoolTimeCoroutine());
     }
 
     private float BuffOnAmount()
     {
-        return baseAmount * (1 + amount/100);
+        return baseAmount * (1 + amount / 100);
     }
 
     private float BuffOffAmount()

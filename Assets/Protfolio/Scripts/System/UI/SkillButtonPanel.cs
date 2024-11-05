@@ -8,12 +8,20 @@ public class SkillButtonPanel : MonoBehaviour
     private List<Skill> skills = new();
     public SkillButton skillButtonPrefab;
 
+    private void Awake()
+    {
+        if (GameManager.Instance != null)
+            skills = GameManager.Instance.playerData.skills;
+    }
+
     private void Start()
     {
         informationPanel.gameObject.SetActive(false);
+        CreateSkillButtons();
+    }
 
-        skills = GameManager.Instance.playerData.skills;
-
+    private void CreateSkillButtons()
+    {
         for (int i = 0; i < skills.Count; i++)
         {
             if (skills[i] == null) continue;
@@ -24,6 +32,4 @@ public class SkillButtonPanel : MonoBehaviour
             button.information = informationPanel;
         }
     }
-
-
 }

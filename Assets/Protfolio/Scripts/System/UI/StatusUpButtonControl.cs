@@ -5,16 +5,16 @@ using UnityEngine;
 public class StatusUpButtonControl : MonoBehaviour
 {
     public StatusUpButton statusUBP;
-    public StatusUpgradeData[] datas;
+    private StatusUpgradeData[] datas;
 
     private void Start()
     {
-        if (GameManager.Instance != null)
+        if (GameManager.Instance.playerData != null)
             datas = GameManager.Instance.playerData.datas;
 
-        for(int i=0; i<datas.Length; i++)
+        for (int i = 0; i < datas.Length; i++)
         {
-            StatusUpButton button = Instantiate(statusUBP,transform);
+            StatusUpButton button = Instantiate(statusUBP, transform);
             button.data = datas[i];
         }
     }
