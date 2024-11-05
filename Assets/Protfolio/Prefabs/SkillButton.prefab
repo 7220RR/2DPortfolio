@@ -517,7 +517,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   skilldata: {fileID: 0}
   information: {fileID: 0}
-  button: {fileID: 0}
   skillNameText: {fileID: 1741829161741662675}
   coolTimeImage: {fileID: 145617337244332421}
   coolTimeText: {fileID: 5953412640979348939}
