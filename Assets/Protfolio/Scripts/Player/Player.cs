@@ -19,10 +19,10 @@ public class Player : MonoBehaviour
     private Rigidbody2D rb;
 
     private bool isDead = false;
-    private bool isTarget = false;
+    private bool isTarget;
     private Enemy target;
 
-    private const float player_attack_max_range = 4f;
+    private const float player_attack_max_range = 3f;
     private const float move_min_distance = 0.1f;
     private const float target_min_x = 3f;
 
@@ -74,7 +74,7 @@ public class Player : MonoBehaviour
         foreach (Enemy enemy in GameManager.Instance.enemyList)
         {
             if(enemy.isDead) continue;
-            if(enemy.transform.position.x > target_min_x) continue; 
+            if(enemy.transform.position.x > 3f) continue; 
             float dic = Vector2.Distance(enemy.transform.position , transform.position);
 
             if (dic < targetDic)
@@ -91,21 +91,13 @@ public class Player : MonoBehaviour
 
         float targetDic = Vector2.Distance(target.transform.position , transform.position);
 
-        if(targetDic < player_attack_max_range)
+        if (targetDic > player_attack_max_range && target.transform.position.x <= target_min_x)
         {
             isTarget = true;
-            animator.SetBool("IsMoving", false);
-        }
-        else if (targetDic > player_attack_max_range && target.transform.position.x <= target_min_x)
-        {
-            isTarget = false;
             Move(target.transform.position);
         }
         else
-        {
-            isTarget= false;
             MoveToStart();
-        }
     }
 
     private void Move(Vector3 targetPosition)
