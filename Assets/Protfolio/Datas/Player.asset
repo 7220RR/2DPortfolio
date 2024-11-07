@@ -24,7 +24,7 @@ MonoBehaviour:
   datas:
   - statusName: "\uACF5\uACA9\uB825"
     amount: 1
-    icon: {fileID: 21300000, guid: a4eeb9c26c3c16e469eb5b1039512d80, type: 3}
+    icon: {fileID: 21300000, guid: a03aed88c7f02254ba650714f7d072cb, type: 3}
     lv: 1
   - statusName: "\uCCB4\uB825"
     amount: 5
@@ -36,7 +36,7 @@ MonoBehaviour:
     lv: 1
   - statusName: "\uCE58\uBA85\uD0C0\uD655\uB960"
     amount: 1
-    icon: {fileID: 21300000, guid: 9b901b0342008d345a7c96c77616dfe5, type: 3}
+    icon: {fileID: 21300000, guid: 5083205a63787f74f8bb323f2462bb1a, type: 3}
     lv: 1
   - statusName: "\uCE58\uBA85\uD0C0\uD53C\uD574"
     amount: 1
@@ -44,11 +44,11 @@ MonoBehaviour:
     lv: 1
   - statusName: "\uACF5\uACA9\uC18D\uB3C4"
     amount: 0.1
-    icon: {fileID: 21300000, guid: 0630b8d5ad77fa94bb32ca4792fc9c8a, type: 3}
+    icon: {fileID: 21300000, guid: 5995a985ee9439f4cb38e30564583116, type: 3}
     lv: 1
   - statusName: "\uB354\uBE14\uC0F7"
     amount: 1
-    icon: {fileID: 21300000, guid: 0630b8d5ad77fa94bb32ca4792fc9c8a, type: 3}
+    icon: {fileID: 21300000, guid: e8d7993dc8da63d4ea61dddfd353a2fc, type: 3}
     lv: 1
   skills:
   - {fileID: 6937811005378873188, guid: 5930351de80800d4eaccbe752cada58b, type: 3}
